@@ -11,12 +11,27 @@ import {
 
 export const routes: Routes = [
   {
+    path: 'admin',
+    loadChildren: () => import('./admin/admin.module')
+      .then(m => m.AdminModule),
+  },
+  {
+    path: 'member',
+    loadChildren: () => import('./member/member.module')
+      .then(m => m.MemberModule),
+  },
+  {
     path: 'pages',
     loadChildren: () => import('./pages/pages.module')
       .then(m => m.PagesModule),
   },
   {
     path: 'auth',
+    loadChildren: () => import('./auth/auth.module')
+      .then(m => m.AuthModule),
+  },
+  {
+    path: 'auth_',
     component: NbAuthComponent,
     children: [
       {
