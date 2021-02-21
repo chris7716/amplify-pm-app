@@ -55,3 +55,8 @@ import 'core-js/es7/object';
 if (typeof SVGElement.prototype.contains === 'undefined') {
   SVGElement.prototype.contains = HTMLDivElement.prototype.contains;
 }
+
+(window as any).global = window;
+(window as any).process = {
+  env: { DEBUG: undefined },
+};
