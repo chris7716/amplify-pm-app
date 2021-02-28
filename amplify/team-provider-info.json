@@ -10,6 +10,21 @@
       "StackName": "amplify-ngxadmin-dev-102544",
       "StackId": "arn:aws:cloudformation:us-east-1:175704135025:stack/amplify-ngxadmin-dev-102544/1491f070-7401-11eb-b2c8-0eddd438f74f",
       "AmplifyAppId": "d394kogwnc7hvv"
+    },
+    "categories": {
+      "function": {
+        "ngxadmin5155baafCustomMessage": {
+          "REDIRECTURL": "http://localhost:4000",
+          "EMAILSUBJECT": "Verify your account",
+          "EMAILMESSAGE": "Click here to confirm your account in i-Manger app"
+        },
+        "ngxadmin5155baafPostConfirmation": {
+          "GROUP": "MEMBERS"
+        }
+      },
+      "auth": {
+        "ngxadmin5155baaf": {}
+      }
     }
   }
 }

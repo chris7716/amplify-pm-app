@@ -9,5 +9,6 @@
     "amplify/backend/awscloudformation": true
   },
   "typescript.tsdk": "./node_modules/typescript/lib",
-  "tslint.enable": false
+  "tslint.enable": false,
+  "compile-hero.disable-compile-files-on-did-save-code": true
 }

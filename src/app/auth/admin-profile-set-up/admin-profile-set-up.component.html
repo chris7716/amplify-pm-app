@@ -24,7 +24,7 @@
   </ul>
 </nb-alert>
 
-<form #form="ngForm" aria-labelledby="title">
+<form (ngSubmit)="setupProfile()" #form="ngForm" aria-labelledby="title">
   <div class="form-control-group">
     <label class="label" for="input-name">Full name:</label>
     <input
@@ -61,7 +61,7 @@
   </div>
 
   <div class="form-control-group">
-    <label class="label" for="input-email">Email Address:</label>
+    <label class="label" for="input-email">Email address:</label>
     <input
       nbInput
       [(ngModel)]="user.email"
@@ -69,7 +69,7 @@
       id="input-email"
       name="email"
       pattern=".+@.+..+"
-      placeholder="Email Address"
+      placeholder="Email address"
       fullWidth
       fieldSize="large"
       [status]="email.dirty ? (email.invalid ? 'danger' : 'success') : 'basic'"
@@ -84,6 +84,20 @@
         Email should be the real one!
       </p>
     </ng-container>
+  </div>
+
+  <div class="form-control-group">
+    <label class="label" for="input-mobile">Mobile number:</label>
+    <input
+      nbInput
+      [(ngModel)]="user.mobile"
+      #mobile="ngModel"
+      id="input-mobile"
+      name="mobile"
+      placeholder="Mobile number"
+      fullWidth
+      fieldSize="large"
+    />
   </div>
 
   <div class="form-control-group">
@@ -169,6 +183,8 @@
     fullWidth
     status="primary"
     size="large"
+    [nbSpinner]="submitted"
+    nbSpinnerStatus="control"
     [disabled]="submitted || !form.valid"
     [class.btn-pulse]="submitted"
   >

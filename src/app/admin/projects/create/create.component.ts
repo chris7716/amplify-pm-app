@@ -1,6 +1,12 @@
 import { ChangeDetectionStrategy, Component, ViewChild, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { NbToastrService } from '@nebular/theme';
+import { format } from 'date-fns';
+import { LocalDataSource } from 'ng2-smart-table';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { EmployeeService } from '../../../service/employee.service';
+import { ProjectService } from '../../../service/project.service';
 @Component({
   selector: 'ngx-create',
   templateUrl: './create.component.html',
@@ -8,19 +14,13 @@ import { map } from 'rxjs/operators';
 })
 export class CreateComponent implements OnInit {
 
-  options: string[];
+  options: any[];
   filteredOptions$: Observable<string[]>;
 
   settings = {
-    add: {
-      addButtonContent: '<i class="nb-plus"></i>',
-      createButtonContent: '<i class="nb-checkmark"></i>',
-      cancelButtonContent: '<i class="nb-close"></i>',
-    },
+    hideSubHeader: true,
     edit: {
       editButtonContent: '<i class="nb-edit"></i>',
-      saveButtonContent: '<i class="nb-checkmark"></i>',
-      cancelButtonContent: '<i class="nb-close"></i>',
     },
     delete: {
       deleteButtonContent: '<i class="nb-trash"></i>',
@@ -32,24 +32,56 @@ export class CreateComponent implements OnInit {
         type: 'string',
       },
       email: {
-        title: 'E-mail',
+        title: 'Email',
         type: 'string',
       },
     },
   };
 
-  source = [];
+  data = [
+    {
+      value: "Option 1",
+      name: "OPTION 1"
+    },
+    {
+      value: "Option 2",
+      name: "OPTION 2"
+    },
+    {
+      value: "Option 3",
+      name: "OPTION 3"
+    },
+  ];
+
+  source: LocalDataSource = new LocalDataSource();
+  members = [];
+  projectDetails: any = {};
 
   @ViewChild('autoInput') input;
 
-  ngOnInit() {
-    this.options = ['Option 1', 'Option 2', 'Option 3'];
-    this.filteredOptions$ = of(this.options);
+  constructor(
+    private _employeeService: EmployeeService,
+    private _projectService: ProjectService,
+    private _toastrService: NbToastrService,
+    ){
+
   }
 
-  private filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
-    return this.options.filter(optionValue => optionValue.toLowerCase().includes(filterValue));
+  projectForm = new FormGroup({
+    name: new FormControl('', Validators.required),
+    description: new FormControl('', Validators.required),
+    deadline: new FormControl('', Validators.required),
+    selectedName: new FormControl(''),
+  });
+
+  ngOnInit() {
+    this.loadEmployees();
+  }
+
+  private filter(data): string[] {
+    console.log(data);
+    const filterValue = data.toLowerCase();
+    return this.options.filter(optionValue => optionValue.name.toLowerCase().includes(filterValue));
   }
 
   getFilteredOptions(value: string): Observable<string[]> {
@@ -63,7 +95,10 @@ export class CreateComponent implements OnInit {
   }
 
   onSelectionChange($event) {
-    this.filteredOptions$ = this.getFilteredOptions($event);
+    console.log($event);
+    this.input.nativeElement.value = $event.name;
+    this.members.push($event);
+    this.source.load(this.members);
   }
 
   onDeleteConfirm(event): void {
@@ -72,6 +107,59 @@ export class CreateComponent implements OnInit {
     } else {
       event.confirm.reject();
     }
+  }
+
+  submit() {
+    console.log(this.projectForm.value.name);
+    this.projectDetails.name = this.projectForm.value.name;
+    this.projectDetails.description = this.projectForm.value.description;
+    this.projectDetails.endingDate = format( new Date(this.projectForm.value.deadline), 'yyyy-MM-dd' );
+
+    this._projectService.saveProject(this.projectDetails)
+      .then(res => {
+        console.log(res);
+        let projectId = res.data.createProject.id;
+        this.saveEmployeeProjects(projectId);
+      })
+      .then(res => {
+        this.projectForm.reset();
+        this.members = [];
+        this.filteredOptions$ = null;
+        this.loadEmployees();
+        this.source.load(this.members);
+        this.notifyUser();
+      })
+      .catch(err => {
+        console.log(err);
+      })
+  }
+
+  saveEmployeeProjects(projectId) {
+    this.members.reduce((promiseChain, item) => {
+      let data: any = {};
+      data.projectId = projectId;
+      data.memberId = item.id;
+      return promiseChain.then(() => new Promise((resolve) => {
+        this._projectService.saveProjectMembers(data);
+      }));
+    }, Promise.resolve())
+  }
+
+  loadEmployees() {
+    this._employeeService.listEmployees()
+      .then(res => {
+        this.options = res.data.listEmployees.items;
+      }
+    );
+    this.filteredOptions$ = of(this.options);
+  }
+
+  notifyUser() {
+    let status = 'success';
+    this._toastrService.show(
+      status || 'Success',
+      `Project created!`,
+      { status });
   }
 
 }

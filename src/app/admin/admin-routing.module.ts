@@ -16,6 +16,11 @@ const routes: Routes = [{
       loadChildren: () => import('./members/members.module')
         .then(m => m.MembersModule),
     },
+    {
+      path: '',
+      redirectTo: 'project',
+      pathMatch: 'full',
+    },
   ],
 }];
 

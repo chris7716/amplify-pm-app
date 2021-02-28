@@ -1,0 +1,25 @@
+{
+  "trigger": true,
+  "modules": [
+    "verification-link"
+  ],
+  "parentResource": "ngxadmin5155baaf",
+  "functionName": "ngxadmin5155baafCustomMessage",
+  "resourceName": "ngxadmin5155baafCustomMessage",
+  "parentStack": "auth",
+  "triggerEnvs": [
+    {
+      "key": "RESOURCENAME",
+      "value": "resourceName"
+    }
+  ],
+  "triggerDir": "/usr/local/lib/node_modules/@aws-amplify/cli/node_modules/amplify-category-auth/provider-utils/awscloudformation/triggers/CustomMessage",
+  "triggerTemplate": "CustomMessage.json.ejs",
+  "roleName": "ngxadmin5155baafCustomMessage",
+  "skipEdit": true,
+  "REDIRECTURL": "http://localhost:4000",
+  "EMAILSUBJECT": "Verify your account",
+  "EMAILMESSAGE": "Click here to confirm your account in i-Manger app",
+  "RESOURCENAME": "resourceName",
+  "enableCors": false
+}

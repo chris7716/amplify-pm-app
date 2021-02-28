@@ -1,182 +1,95 @@
 <div class="row">
-  <div class="col-md-4">
-    <nb-card size="medium">
+  <div class="col-md-12">
+    <nb-card class="inline-form-card">
+      <nb-card-header>Search Projects</nb-card-header>
       <nb-card-body>
-        <div class="row">
-          <div class="col-md-6">
-            <span class="h4 location">On-boarding</span>
-          </div>
-          <div class="col-md-6">
-            <button nbButton status="danger" hero>Overdue</button>
-          </div>
-        </div>
-
-        <div class="project-details">
-          <h6 class="project-details-caption">Deadline:</h6>
-          <span class="date">Mon 29 May</span>
-        </div>
-
-        <div class="project-details">
-          <h6 class="project-details-caption">Description:</h6>
-          <span class="date"
-            >Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry's standard dummy text
-            ever since the 1500s</span
+        <form class="form-inline">
+          <nb-select
+            fullWidth
+            placeholder="Select Status"
+            name="status"
+            [(ngModel)]="searchData.status"
           >
-        </div>
-
-        <div class="project-details">
-          <h6 class="project-details-caption">Members:</h6>
-          <nb-list>
-            <nb-list-item>
-              <nb-user name="c.user.name"></nb-user>
-            </nb-list-item>
-            <nb-list-item>
-              <nb-user name="c.user.name"></nb-user>
-            </nb-list-item>
-            <nb-list-item>
-              <nb-user name="c.user.name"></nb-user>
-            </nb-list-item>
-            <nb-list-item>
-              <nb-user name="c.user.name"></nb-user>
-            </nb-list-item>
-          </nb-list>
-        </div>
+            <nb-option value="ALL">All</nb-option>
+            <nb-option value="ON-GOING">On Going</nb-option>
+            <nb-option value="PENDING">Pending</nb-option>
+            <nb-option value="OVERDUE">Overdue</nb-option>
+          </nb-select>
+          <input
+            type="text"
+            name="name"
+            [(ngModel)]="searchData.name"
+            nbInput
+            fullWidth
+            placeholder="Project Name"
+          />
+          <button
+            type="submit"
+            nbButton
+            status="primary"
+            (click)="searchProjects()"
+          >
+            Search
+          </button>
+        </form>
       </nb-card-body>
     </nb-card>
   </div>
-  <div class="col-md-4">
+</div>
+
+<div class="row">
+  <div class="col-md-4" *ngFor="let project of projects">
     <nb-card size="medium">
       <nb-card-body>
         <div class="row">
-          <div class="col-md-6">
-            <span class="h4 location">Learner Dashboard</span>
+          <div class="col-md-4">
+            <span class="h6 location">{{ project.name }}</span>
           </div>
-          <div class="col-md-6">
-            <button nbButton status="primary" hero>On Going</button>
+          <div class="col-md-4">
+            <button
+              nbButton
+              size="tiny"
+              [status]="
+                project.status == 'ON-GOING'
+                  ? 'success'
+                  : project.status == 'PENDING'
+                  ? 'primary'
+                  : 'danger'
+              "
+              hero
+            >
+              {{ project.status }}
+            </button>
+          </div>
+          <div class="col-md-4">
+            <button
+              nbButton
+              shape="round"
+              size="small"
+              status="success"
+              style="float: right"
+              (click)="openWindow(contentTemplate, project)"
+            >
+              Edit
+            </button>
           </div>
         </div>
 
         <div class="project-details">
           <h6 class="project-details-caption">Deadline:</h6>
-          <span class="date">Mon 29 May</span>
+          <span class="date">{{ project.endingDate }}</span>
         </div>
 
         <div class="project-details">
           <h6 class="project-details-caption">Description:</h6>
-          <span class="date"
-            >Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry's standard dummy text
-            ever since the 1500s</span
-          >
+          <span class="date">{{ project.description }}</span>
         </div>
 
         <div class="project-details">
           <h6 class="project-details-caption">Members:</h6>
           <nb-list>
-            <nb-list-item>
-              <nb-user name="c.user.name"></nb-user>
-            </nb-list-item>
-            <nb-list-item>
-              <nb-user name="c.user.name"></nb-user>
-            </nb-list-item>
-            <nb-list-item>
-              <nb-user name="c.user.name"></nb-user>
-            </nb-list-item>
-            <nb-list-item>
-              <nb-user name="c.user.name"></nb-user>
-            </nb-list-item>
-          </nb-list>
-        </div>
-      </nb-card-body>
-    </nb-card>
-  </div>
-  <div class="col-md-4">
-    <nb-card size="medium">
-      <nb-card-body>
-        <div class="row">
-          <div class="col-md-6">
-            <span class="h4 location">GSoC</span>
-          </div>
-          <div class="col-md-6">
-            <button nbButton status="danger" hero>Overdue</button>
-          </div>
-        </div>
-
-        <div class="project-details">
-          <h6 class="project-details-caption">Deadline:</h6>
-          <span class="date">Mon 29 May</span>
-        </div>
-
-        <div class="project-details">
-          <h6 class="project-details-caption">Description:</h6>
-          <span class="date"
-            >Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry's standard dummy text
-            ever since the 1500s</span
-          >
-        </div>
-
-        <div class="project-details">
-          <h6 class="project-details-caption">Members:</h6>
-          <nb-list>
-            <nb-list-item>
-              <nb-user name="c.user.name"></nb-user>
-            </nb-list-item>
-            <nb-list-item>
-              <nb-user name="c.user.name"></nb-user>
-            </nb-list-item>
-            <nb-list-item>
-              <nb-user name="c.user.name"></nb-user>
-            </nb-list-item>
-            <nb-list-item>
-              <nb-user name="c.user.name"></nb-user>
-            </nb-list-item>
-          </nb-list>
-        </div>
-      </nb-card-body>
-    </nb-card>
-  </div>
-  <div class="col-md-4">
-    <nb-card size="medium">
-      <nb-card-body>
-        <div class="row">
-          <div class="col-md-6">
-            <span class="h4 location">Contributor Dashboard</span>
-          </div>
-          <div class="col-md-6">
-            <button nbButton status="success" hero>Completed</button>
-          </div>
-        </div>
-
-        <div class="project-details">
-          <h6 class="project-details-caption">Deadline:</h6>
-          <span class="date">Mon 29 May</span>
-        </div>
-
-        <div class="project-details">
-          <h6 class="project-details-caption">Description:</h6>
-          <span class="date"
-            >Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry's standard dummy text
-            ever since the 1500s</span
-          >
-        </div>
-
-        <div class="project-details">
-          <h6 class="project-details-caption">Members:</h6>
-          <nb-list>
-            <nb-list-item>
-              <nb-user name="c.user.name"></nb-user>
-            </nb-list-item>
-            <nb-list-item>
-              <nb-user name="c.user.name"></nb-user>
-            </nb-list-item>
-            <nb-list-item>
-              <nb-user name="c.user.name"></nb-user>
-            </nb-list-item>
-            <nb-list-item>
-              <nb-user name="c.user.name"></nb-user>
+            <nb-list-item *ngFor="let item of project.employeeProjects.items">
+              <nb-user [name]="item.employee.name" color="#cccccc"></nb-user>
             </nb-list-item>
           </nb-list>
         </div>

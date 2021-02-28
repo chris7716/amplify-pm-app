@@ -24,7 +24,7 @@
   </ul>
 </nb-alert>
 
-<form (ngSubmit)="register()" #form="ngForm" aria-labelledby="title">
+<form (ngSubmit)="signUp()" #form="ngForm" aria-labelledby="title">
   <div class="form-control-group">
     <label class="label" for="input-name">Full name:</label>
     <input
@@ -81,6 +81,28 @@
         Email should be the real one!
       </p>
     </ng-container>
+  </div>
+
+  <div class="form-control-group">
+    <label class="label" for="input-mobile">Mobile Number:</label>
+    <input
+      nbInput
+      [(ngModel)]="user.mobile"
+      #mobile="ngModel"
+      id="input-mobile"
+      name="mobile"
+      pattern=".+@.+..+"
+      placeholder="Mobile number"
+      fullWidth
+    />
+    <!-- <ng-container *ngIf="email.invalid && email.touched">
+      <p class="error-message" *ngIf="email.errors?.required">
+        Email is required!
+      </p>
+      <p class="error-message" *ngIf="email.errors?.pattern">
+        Email should be the real one!
+      </p>
+    </ng-container> -->
   </div>
 
   <div class="form-control-group">
@@ -168,7 +190,8 @@
     nbButton
     fullWidth
     status="success"
-    [disabled]="submitted || !form.valid"
+    [nbSpinner]="submitted"
+    nbSpinnerStatus="control"
     [class.btn-pulse]="submitted"
   >
     Register
