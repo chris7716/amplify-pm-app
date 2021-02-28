@@ -3,7 +3,7 @@ var ddb = new aws.DynamoDB()
 
 exports.handler = async (event, context, callback) => {
   console.log(event);
-  if (event.triggerSOurce == 'PostConfirmation_ConfirmSignUp') {
+  if (event.triggerSource == 'PostConfirmation_ConfirmSignUp') {
     const cognitoidentityserviceprovider = new aws.CognitoIdentityServiceProvider({ apiVersion: '2016-04-18' });
     const groupParams = {
       GroupName: process.env.GROUP,
