@@ -119,7 +119,7 @@
         "Timeout": "25",
         "Code": {
           "S3Bucket": "amplify-ngxadmin-dev-102544-deployment",
-          "S3Key": "amplify-builds/ngxadmin5155baafCustomMessage-33556837695536427845-build.zip"
+          "S3Key": "amplify-builds/ngxadmin5155baafCustomMessage-564531392f2f632b714f-build.zip"
         }
       }
     },
