@@ -38,10 +38,10 @@ exports.handler = (event, context, callback) => {
     callback(null, event);
   } 
   else if (event.triggerSource === 'CustomMessage_AdminCreateUser') {
-    const url = process.env.ADMINURL;
+    const url = process.env.REDIRECTURL;
     event.response.smsMessage = "Welcome to the service. Your user name is " + event.request.usernameParameter + " Your temporary password is " + event.request.codeParameter;
     event.response.emailSubject = process.env.EMAILSUBJECT;
-    event.response.emailMessage = "Welcome to the service. Your user name is " + event.request.usernameParameter + " Your temporary password is " + event.request.codeParameter + ". Follow this link to complete your sign up. " + url;
+    event.response.emailMessage = "Welcome to the service. Your user name is " + event.request.usernameParameter + " Your temporary password is " + event.request.codeParameter + ". Follow this link to complete your sign up. " + url + '/auth/admin-profile-setup';
     callback(null, event);
   } else {
     callback(null, event);
