@@ -69,8 +69,8 @@ export const routes: Routes = [
       },
     ],
   },
-  { path: '', redirectTo: 'auth', pathMatch: 'full' },
-  { path: '**', redirectTo: 'auth' },
+  { path: '', redirectTo: 'auth/sign-in', pathMatch: 'full' },
+  { path: '**', redirectTo: 'auth/sign-in' },
 ];
 
 const config: ExtraOptions = {
