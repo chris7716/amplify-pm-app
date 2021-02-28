@@ -1,1 +1,53 @@
-<p>on-going works!</p>
+<div class="row">
+  <div class="col-md-4" *ngFor="let item of ongoingProjects">
+    <nb-card size="medium">
+      <nb-card-body>
+        <div class="row">
+          <div class="col-md-6">
+            <span class="h4 location">{{ item.project.name }}</span>
+          </div>
+          <div class="col-md-6">
+            <button
+              nbButton
+              size="tiny"
+              [status]="
+                item.project.status == 'ON-GOING'
+                  ? 'success'
+                  : item.project.status == 'PENDING'
+                  ? 'primary'
+                  : 'danger'
+              "
+              hero
+            >
+              {{ item.project.status }}
+            </button>
+          </div>
+        </div>
+
+        <div class="project-details">
+          <h6 class="project-details-caption">Deadline:</h6>
+          <span class="date">{{ item.project.endingDate }}</span>
+        </div>
+
+        <div class="project-details">
+          <h6 class="project-details-caption">Description:</h6>
+          <span class="date">{{ item.project.description }}</span>
+        </div>
+
+        <div class="project-details">
+          <h6 class="project-details-caption">Members:</h6>
+          <nb-list>
+            <nb-list-item
+              *ngFor="let employeeItem of item.project.employeeProjects.items"
+            >
+              <nb-user
+                [name]="employeeItem.employee.name"
+                color="#cccccc"
+              ></nb-user>
+            </nb-list-item>
+          </nb-list>
+        </div>
+      </nb-card-body>
+    </nb-card>
+  </div>
+</div>

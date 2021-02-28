@@ -4,11 +4,6 @@ import { CreateComponent } from './create/create.component';
 import { ListComponent } from './list/list.component';
 
 const routes: Routes = [
-
-  {
-    path: 'create',
-    component: CreateComponent,
-  },
   {
     path: 'list',
     component: ListComponent,

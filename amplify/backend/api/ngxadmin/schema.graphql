@@ -1,0 +1,35 @@
+type Employee @model
+  @auth(rules: [{ allow: groups, groups: ["ADMINS"], operations: [create, delete, update] }, { allow: owner, ownerField: "username", operations: [create, delete, update] }])
+  @key(name: "byType", fields: ["type"], queryField: "employeesByType")
+  @key(name: "byTypeByName", fields: ["type", "name"], queryField: "employeesByTypeByName")
+  @key(name: "byUsername", fields: ["username"], queryField: "employeesByUsername") {
+  id: ID!
+  username: String!
+  name: String!
+  email: String!
+  type: String!
+  employeeProjects: [EmployeeProject] @connection(keyName: "byEmployee", fields: ["id"])
+}
+
+type EmployeeProject @model 
+  @key(name: "byEmployee", fields: ["employeeId"])
+  @key(name: "byProject", fields: ["projectId"]) {
+  id: ID!
+  employeeId: ID!
+  projectId: ID!
+  employee: Employee @connection(fields: ["employeeId"])
+  project: Project @connection(fields: ["projectId"])
+}
+
+type Project @model
+  @auth(rules: [{ allow: groups, groups: ["ADMINS"], operations: [create, delete, update] }])
+  @key(name: "byStatus", fields: ["status"], queryField: "projectsByStatus")
+  @key(name: "byStatusByName", fields: ["status", "name"], queryField: "projectsByStatusByName")
+  @key(name: "byStatusByDate", fields: ["status", "endingDate"], queryField: "projectsByStatusByDate") {
+  id: ID!
+  name: String!
+  description: String
+  status: String
+  endingDate: String
+  employeeProjects: [EmployeeProject] @connection(keyName: "byProject", fields: ["id"])
+}

@@ -5,6 +5,8 @@ import { UserData } from '../../../@core/data/users';
 import { LayoutService } from '../../../@core/utils';
 import { map, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { AuthService } from '../../../service/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'ngx-header',
@@ -38,22 +40,37 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   currentTheme = 'default';
 
-  userMenu = [ { title: 'Profile' }, { title: 'Log out' } ];
+  userMenu = [ { title: 'Log out' } ];
 
   constructor(private sidebarService: NbSidebarService,
               private menuService: NbMenuService,
               private themeService: NbThemeService,
               private userService: UserData,
               private layoutService: LayoutService,
-              private breakpointService: NbMediaBreakpointsService) {
+              private breakpointService: NbMediaBreakpointsService,
+              private _auth: AuthService,
+              private _router: Router) {
+
+                this._auth.getAuthenticatedUser().then(res =>{
+                  this.user = res.attributes;
+                  console.log(this.user);
+                  
+                });
+
+                menuService.onItemClick().subscribe((data) => {
+                  // .... do what you want
+                  console.log(data);
+                  if(data.item.title == "Log out"){
+                    this._auth.signOut()
+                    .then(res => {
+                      this._router.navigate(['/auth/sign-in']);
+                    });
+                  }
+                });
   }
 
   ngOnInit() {
     this.currentTheme = this.themeService.currentTheme;
-
-    this.userService.getUsers()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((users: any) => this.user = users.nick);
 
     const { xl } = this.breakpointService.getBreakpointsMap();
     this.themeService.onMediaQueryChange()

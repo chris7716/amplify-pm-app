@@ -86,13 +86,7 @@
   </div>
 
   <div class="form-control-group accept-group">
-    <nb-checkbox
-      name="rememberMe"
-      [(ngModel)]="user.rememberMe"
-      *ngIf="rememberMe"
-      >Remember me</nb-checkbox
-    >
-    <a class="forgot-password" routerLink="../request-password"
+    <a class="forgot-password" routerLink="../forgot-passowrd"
       >Forgot Password?</a
     >
   </div>
@@ -101,6 +95,8 @@
     nbButton
     fullWidth
     status="success"
+    [nbSpinner]="submitted"
+    nbSpinnerStatus="control"
     [disabled]="submitted || !form.valid"
     [class.btn-pulse]="submitted"
   >
@@ -108,35 +104,7 @@
   </button>
 </form>
 
-<section
-  *ngIf="socialLinks && socialLinks.length > 0"
-  class="links"
-  aria-label="Social sign in"
->
-  or enter with:
-  <div class="socials">
-    <ng-container *ngFor="let socialLink of socialLinks">
-      <a
-        *ngIf="socialLink.link"
-        [routerLink]="socialLink.link"
-        [attr.target]="socialLink.target"
-        [attr.class]="socialLink.icon"
-        [class.with-icon]="socialLink.icon"
-        >{{ socialLink.title }}</a
-      >
-      <a
-        *ngIf="socialLink.url"
-        [attr.href]="socialLink.url"
-        [attr.target]="socialLink.target"
-        [attr.class]="socialLink.icon"
-        [class.with-icon]="socialLink.icon"
-        >{{ socialLink.title }}</a
-      >
-    </ng-container>
-  </div>
-</section>
-
 <section class="another-action" aria-label="Register">
   Don't have an account?
-  <a class="text-link" routerLink="../register">Register</a>
+  <a class="text-link" routerLink="../sign-up">Register</a>
 </section>

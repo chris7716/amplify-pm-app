@@ -4,13 +4,16 @@ import { CommonModule } from '@angular/common';
 import { ProjectsRoutingModule } from './projects-routing.module';
 import { CreateComponent } from './create/create.component';
 import { ListComponent } from './list/list.component';
-import { NbActionsModule, NbAlertModule, NbAutocompleteModule, NbButtonModule, NbCardModule, NbCheckboxModule, NbDatepickerModule, NbIconModule, NbInputModule, NbListModule, NbRadioModule, NbSelectModule, NbUserModule } from '@nebular/theme';
+import { NbActionsModule, NbAlertModule, NbAutocompleteModule, NbButtonModule, NbCardModule, NbCheckboxModule, NbDatepickerModule, NbDialogModule, NbIconModule, NbInputModule, NbListModule, NbRadioModule, NbSelectModule, NbUserModule } from '@nebular/theme';
 import { FormsRoutingModule } from '../../pages/forms/forms-routing.module';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { UpdateComponent } from './update/update.component';
+import { NbDateFnsDateModule } from '@nebular/date-fns';
 
 
 @NgModule({
-  declarations: [CreateComponent, ListComponent],
+  declarations: [CreateComponent, ListComponent, UpdateComponent],
   imports: [
     CommonModule,
     ProjectsRoutingModule,
@@ -29,6 +32,9 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
     NbInputModule,
     NbActionsModule,
     Ng2SmartTableModule,
+    ReactiveFormsModule,
+    NbDialogModule,
+    FormsModule,
   ]
 })
 export class ProjectsModule { }

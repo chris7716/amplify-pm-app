@@ -8,17 +8,26 @@ import {
   NbRequestPasswordComponent,
   NbResetPasswordComponent,
 } from '@nebular/auth';
+import { AuthGuard } from './guard/auth.guard';
 
 export const routes: Routes = [
   {
     path: 'admin',
     loadChildren: () => import('./admin/admin.module')
       .then(m => m.AdminModule),
+    canActivate: [AuthGuard],
+    data: {
+      role: 'ADMINS'
+    },
   },
   {
     path: 'member',
     loadChildren: () => import('./member/member.module')
       .then(m => m.MemberModule),
+    canActivate: [AuthGuard],
+    data: {
+      role: 'MEMBERS'
+    },
   },
   {
     path: 'pages',
@@ -60,8 +69,8 @@ export const routes: Routes = [
       },
     ],
   },
-  { path: '', redirectTo: 'pages', pathMatch: 'full' },
-  { path: '**', redirectTo: 'pages' },
+  { path: '', redirectTo: 'auth/sign-in', pathMatch: 'full' },
+  { path: '**', redirectTo: 'auth/sign-in' },
 ];
 
 const config: ExtraOptions = {
